@@ -3,6 +3,9 @@
 #include <QRandomGenerator>
 #include <qDebug>
 #include <QString>
+
+
+
 promocodes::promocodes(QString pinCode, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::promocodes)
@@ -25,7 +28,7 @@ QString promocodes::generateRandomString(int length)
     randomString.reserve(length);
 
     for (int i = 0; i < length; ++i) {
-        // Генерируем случайное число от 0 до 255
+        // Генерируем случайное число от 0 до 36
         int randomValue = QRandomGenerator::global()->bounded(36);
         // Преобразуем случайное число в символ
         QChar randomChar;
@@ -37,13 +40,11 @@ QString promocodes::generateRandomString(int length)
         // Добавляем символ к строке
         randomString.append(randomChar);
     }
-    qDebug() << randomString;
     return randomString;
 }
 
 void promocodes::initPromo() {
     ui->listWidget->clear();
-
     for (uint i = 0; i < fieldSize; i++) {
         addpromo();
     }
@@ -69,13 +70,14 @@ void promocodes::addCard(QString promo) {
 
 void promocodes::on_pushButton_clicked()
 {
+
     while (true) {
         auto randomIndex = QRandomGenerator::global()->bounded(uint(0), fieldSize);
 
         if (openedPromos.contains(randomIndex)) continue;
 
-        const auto item = ui->listWidget->item(randomIndex);
-        const auto itemWidget = dynamic_cast<CardWidget*>(ui->listWidget->itemWidget(item));
+        auto item = ui->listWidget->item(randomIndex);
+        auto itemWidget = dynamic_cast<CardWidget*>(ui->listWidget->itemWidget(item));
 
         itemWidget->showPromo();
         openedPromos.append(randomIndex);
