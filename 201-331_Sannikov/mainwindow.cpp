@@ -57,3 +57,5 @@ void MainWindow::on_pushButton_clicked()
         QMessageBox::warning(this,"Авторизация","Неправильный пин-код");
     }
 }
+
+
