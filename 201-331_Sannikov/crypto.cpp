@@ -22,8 +22,6 @@ QByteArray crypto::encrypt(QByteArray text, QString key, QString iv) {
 }
 
 
-
-
 QString crypto::decrypt(QByteArray text, QString key, QString iv) {
     auto textFromHex = QByteArray::fromHex(text);
     auto k = crypto::getKey(key);
@@ -34,6 +32,5 @@ QString crypto::decrypt(QByteArray text, QString key, QString iv) {
     QString decodedText = QString(withoutPad);
     return decodedText;
 }
-
 
 

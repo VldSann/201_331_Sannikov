@@ -3,6 +3,9 @@
 #include <QRandomGenerator>
 #include <qDebug>
 #include <QString>
+
+
+
 promocodes::promocodes(QString pinCode, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::promocodes)
@@ -25,7 +28,7 @@ QString promocodes::generateRandomString(int length)
     randomString.reserve(length);
 
     for (int i = 0; i < length; ++i) {
-        // Генерируем случайное число от 0 до 255
+        // Генерируем случайное число от 0 до 36
         int randomValue = QRandomGenerator::global()->bounded(36);
         // Преобразуем случайное число в символ
         QChar randomChar;
@@ -37,20 +40,22 @@ QString promocodes::generateRandomString(int length)
         // Добавляем символ к строке
         randomString.append(randomChar);
     }
-    qDebug() << randomString;
-    auto encodedPromo = crypto::encrypt(randomString.toUtf8(), pinCode, pinCode);
-    qDebug() << encodedPromo;
-    return encodedPromo;
+    return randomString;
 }
 
 void promocodes::initPromo() {
     ui->listWidget->clear();
-
     for (uint i = 0; i < fieldSize; i++) {
-        auto promo = generateRandomString(4);
-        promos.append(promo);
-        addCard(promo);
+        addpromo();
     }
+}
+
+void promocodes::addpromo(){
+    auto promo = generateRandomString(4);
+    auto encodedPromo = crypto::encrypt(promo.toUtf8(), pinCode, pinCode);
+
+    promos.append(encodedPromo);
+    addCard(encodedPromo);
 }
 
 void promocodes::addCard(QString promo) {
@@ -65,21 +70,20 @@ void promocodes::addCard(QString promo) {
 
 void promocodes::on_pushButton_clicked()
 {
+
     while (true) {
         auto randomIndex = QRandomGenerator::global()->bounded(uint(0), fieldSize);
 
         if (openedPromos.contains(randomIndex)) continue;
 
-        const auto item = ui->listWidget->item(randomIndex);
-        const auto itemWidget = dynamic_cast<CardWidget*>(ui->listWidget->itemWidget(item));
+        auto item = ui->listWidget->item(randomIndex);
+        auto itemWidget = dynamic_cast<CardWidget*>(ui->listWidget->itemWidget(item));
 
         itemWidget->showPromo();
         openedPromos.append(randomIndex);
         fieldSize++;
 
-        const auto promo = generateRandomString(4);
-        promos.append(promo);
-        addCard(promo);
+        addpromo();
 
         break;
     }

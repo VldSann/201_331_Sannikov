@@ -24,6 +24,7 @@ signals:
 private slots:
     QString generateRandomString(int);
     void initPromo();
+    void addpromo();
     void addCard(QString promo);
     void on_pushButton_clicked();
 

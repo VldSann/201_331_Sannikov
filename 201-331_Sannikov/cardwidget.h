@@ -17,9 +17,6 @@ class CardWidget : public QWidget {
 
   QString promo = "";
   QString pinCode;
-
-  void setPromo(const QString promo);
-  const QString getPromo();
   void showPromo();
 
  private:
