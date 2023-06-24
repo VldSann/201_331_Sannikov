@@ -38,19 +38,23 @@ QString promocodes::generateRandomString(int length)
         randomString.append(randomChar);
     }
     qDebug() << randomString;
-    auto encodedPromo = crypto::encrypt(randomString.toUtf8(), pinCode, pinCode);
-    qDebug() << encodedPromo;
-    return encodedPromo;
+    return randomString;
 }
 
 void promocodes::initPromo() {
     ui->listWidget->clear();
 
     for (uint i = 0; i < fieldSize; i++) {
-        auto promo = generateRandomString(4);
-        promos.append(promo);
-        addCard(promo);
+        addpromo();
     }
+}
+
+void promocodes::addpromo(){
+    auto promo = generateRandomString(4);
+    auto encodedPromo = crypto::encrypt(promo.toUtf8(), pinCode, pinCode);
+
+    promos.append(encodedPromo);
+    addCard(encodedPromo);
 }
 
 void promocodes::addCard(QString promo) {
@@ -77,12 +81,9 @@ void promocodes::on_pushButton_clicked()
         openedPromos.append(randomIndex);
         fieldSize++;
 
-        const auto promo = generateRandomString(4);
-        promos.append(promo);
-        addCard(promo);
+        addpromo();
 
         break;
     }
 }
-
 

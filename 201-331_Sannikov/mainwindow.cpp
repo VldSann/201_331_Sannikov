@@ -48,7 +48,7 @@ void MainWindow::on_pushButton_clicked()
 
     if(check_pin(pinCode))
     {
-        sWindow = new promocodes(pinCode);
+        sWindow = new promocodes(crypto::getKey((pinCode).toUtf8()));
         sWindow->show();
         this->close();
     }
@@ -57,6 +57,3 @@ void MainWindow::on_pushButton_clicked()
         QMessageBox::warning(this,"Авторизация","Неправильный пин-код");
     }
 }
-
-
-

@@ -8,6 +8,7 @@ CardWidget::CardWidget(QString pinCode, const QString promo, QWidget* parent)
 
   ui->promoButton->setText("");
   setPromo(promo);
+  this->pinCode = pinCode;
 }
 
 CardWidget::~CardWidget() {
@@ -23,10 +24,6 @@ void CardWidget::setPromo(const QString promo) {
 }
 
 void CardWidget::showPromo() {
-  QString decryptPromo = crypto::decrypt(promo.toUtf8(), pinCode, pinCode);
-
-
-  ui->promoButton->setText(decryptPromo);
+  QString decrPromo = crypto::decrypt(promo.toUtf8(), pinCode, pinCode);
+  ui->promoButton->setText(decrPromo);
 }
-
-

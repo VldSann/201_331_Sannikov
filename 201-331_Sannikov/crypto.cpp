@@ -36,5 +36,3 @@ QString crypto::decrypt(QByteArray text, QString key, QString iv) {
 }
 
 
-
-
