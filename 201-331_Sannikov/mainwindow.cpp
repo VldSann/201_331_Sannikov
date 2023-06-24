@@ -48,7 +48,7 @@ void MainWindow::on_pushButton_clicked()
 
     if(check_pin(pinCode))
     {
-        sWindow = new promocodes();
+        sWindow = new promocodes(pinCode);
         sWindow->show();
         this->close();
     }

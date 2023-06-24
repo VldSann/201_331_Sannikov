@@ -2,7 +2,7 @@
 
 #include "ui_cardwidget.h"
 
-CardWidget::CardWidget(const QString promo, QWidget* parent)
+CardWidget::CardWidget(QString pinCode, const QString promo, QWidget* parent)
     : QWidget(parent), ui(new Ui::CardWidget) {
   ui->setupUi(this);
 
@@ -23,5 +23,8 @@ void CardWidget::setPromo(const QString promo) {
 }
 
 void CardWidget::showPromo() {
-  ui->promoButton->setText(promo);
+  QString decryptPromo = crypto::decrypt(promo.toUtf8(), pinCode, pinCode);
+
+
+  ui->promoButton->setText(decryptPromo);
 }
