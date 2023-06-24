@@ -29,3 +29,4 @@ void CardWidget::showPromo() {
   ui->promoButton->setText(decryptPromo);
 }
 
+
